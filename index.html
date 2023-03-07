@@ -98,24 +98,25 @@
 
 		function checkWin() {
 			let cells = document.querySelectorAll("button");
-			let winConditions = [0, 1, 2],
-[3, 4, 5],
-[6, 7, 8],
-[0, 3, 6],
-[1, 4, 7],
-[2, 5, 8],
-[0, 4, 8],
-[2, 4, 6]
-];
-for (let condition of winConditions) {
-if (cells[condition[0]].innerText != "-" && cells[condition[0]].innerText == cells[condition[1]].innerText && cells[condition[1]].innerText == cells[condition[2]].innerText) {
-return true;
-}
-}
-return false;
-}
+			let winConditions = [
+			    		    [0, 1, 2],
+					    [3, 4, 5],
+					    [6, 7, 8],
+  					    [0, 3, 6],
+					    [1, 4, 7],
+					    [2, 5, 8],
+      					    [0, 4, 8],
+                                            [2, 4, 6]
+                                            ];
+			for (let condition of winConditions) {
+				if (cells[condition[0]].innerText != "-" && cells[condition[0]].innerText == cells[condition[1]].innerText && cells[condition[1]].innerText == cells[condition[2]].innerText) {
+					return true;
+				}
+			}
+		return false;
+		}
 		
-	function checkTie() {
+		function checkTie() {
 		let cells = document.querySelectorAll("button");
 		for (let cell of cells) {
 			if (cell.innerText == "-") {
@@ -125,7 +126,6 @@ return false;
 		return true;
 	}
 </script>
-
-		
 </body>
-</html>		
+</html>
+				
