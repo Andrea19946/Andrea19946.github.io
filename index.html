@@ -16,7 +16,7 @@
 			var day = parseInt(document.getElementById("day").value);
 			var julianDate = toJulianDate(year, month, day);
 			var firstDayOfYear = toJulianDate(year, 1, 1);
-			var difference = Math.abs(julianDate - firstDayOfYear);
+			var difference = Math.abs(julianDate - firstDayOfYear+1);
 			document.getElementById("difference").innerHTML = difference;
 		}
 
@@ -38,7 +38,7 @@
 		<input type="number" id="day" placeholder="Giorno">
 		<button type="button" onclick="convertToJulianDate()">Converti la data in Giorni Giuliani</button>
 		<p>Giorno Giuliano: <span id="julianDate"></span></p>
-		<button type="button" onclick="calculateDifference()+1">Calcola numero giorno</button>
+		<button type="button" onclick="calculateDifference()">Calcola numero giorno</button>
 	</form>
 	<p>Giorno numero: <span id="difference"></span></p>
 	
