@@ -14,9 +14,6 @@
 			font-size: 40px;
 			margin: 5px;
 		}
-		.score {
-			margin-top: 20px;
-		}
 	</style>
 </head>
 <body>
@@ -36,96 +33,54 @@
 			<button id="7" onclick="play(this)">-</button>
 			<button id="8" onclick="play(this)">-</button>
 		</div>
-		<div class="score">
-			<p>Player 1 Score: <span id="player1Score">0</span></p>
-			<p>Player 2 Score: <span id="player2Score">0</span></p>
-		</div>
 	</div>
 	<script>
 		let currentPlayer = "X";
-		let player1Score = 0;
-		let player2Score = 0;
 		let gameOver = false;
 
 		function play(button) {
 			if (!gameOver && button.innerText == "-") {
 				button.innerText = currentPlayer;
 				if (checkWin()) {
-					if (currentPlayer == "X") {
-						player1Score++;
-						document.getElementById("player1Score").innerText = player1Score;
-						alert("Player 1 wins!");
-					} else {
-						player2Score++;
-						document.getElementById("player2Score").innerText = player2Score;
-						alert("Player 2 wins!");
-					}
+					alert(currentPlayer + " wins!");
 					gameOver = true;
 				} else if (checkTie()) {
 					alert("Tie game!");
 					gameOver = true;
 				} else {
 					currentPlayer = currentPlayer == "X" ? "O" : "X";
-					if (currentPlayer == "O") {
-						computerPlay();
-					}
 				}
-			}
-		}
-
-		function computerPlay() {
-			let cells = document.querySelectorAll("button");
-			let availableCells = [];
-			for (let cell of cells) {
-				if (cell.innerText == "-") {
-					availableCells.push(cell);
-				}
-			}
-			let chosenCell = availableCells[Math.floor(Math.random() * availableCells.length)];
-			chosenCell.innerText = "O";
-			if (checkWin()) {
-				player2Score++;
-				document.getElementById("player2Score").innerText = player2Score;
-				alert("Player 2 wins!");
-				gameOver = true;
-			} else if (checkTie()) {
-				alert("Tie game!");
-				gameOver = true;
-			} else {
-				currentPlayer = "X";
 			}
 		}
 
 		function checkWin() {
 			let cells = document.querySelectorAll("button");
 			let winConditions = [
-			    		    [0, 1, 2],
-					    [3, 4, 5],
-					    [6, 7, 8],
-  					    [0, 3, 6],
-					    [1, 4, 7],
-					    [2, 5, 8],
-      					    [0, 4, 8],
-                                            [2, 4, 6]
-                                            ];
+				[0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+				[0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+				[0, 4, 8], [2, 4, 6] // diagonals
+			];
 			for (let condition of winConditions) {
-				if (cells[condition[0]].innerText != "-" && cells[condition[0]].innerText == cells[condition[1]].innerText && cells[condition[1]].innerText == cells[condition[2]].innerText) {
+				if (cells[condition[0]].innerText != "-" &&
+					cells[condition[0]].innerText == cells[condition[1]].innerText &&
+					cells[condition[1]].innerText == cells[condition[2]].innerText) {
 					return true;
 				}
 			}
-		return false;
+			return false;
 		}
-		
+
 		function checkTie() {
-		let cells = document.querySelectorAll("button");
-		for (let cell of cells) {
-			if (cell.innerText == "-") {
-				return false;
+			let cells = document.querySelectorAll("button");
+			for (let cell of cells) {
+				if (cell.innerText == "-") {
+					return false;
+				}
 			}
+			return true;
 		}
-		return true;
-	}
-</script>
+	</script>
 </body>
 </html>
+
 				
