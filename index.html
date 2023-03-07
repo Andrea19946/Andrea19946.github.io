@@ -1,47 +1,131 @@
+<!DOCTYPE html>
 <html>
 <head>
-	<title>Convert date to Julian date and calculate difference</title>
-	<script type="text/javascript">
-		function toJulianDate(year, month, day) {
-			var a = Math.floor((14 - month) / 12);
-			var y = year + 4800 - a;
-			var m = month + 12 * a - 3;
-			var julianDay = day + Math.floor((153 * m + 2) / 5) + y * 365 + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
-			return julianDay;
+	<title>Tic Tac Toe</title>
+	<style>
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
 		}
-
-		function calculateDifference() {
-			var year = parseInt(document.getElementById("year").value);
-			var month = parseInt(document.getElementById("month").value);
-			var day = parseInt(document.getElementById("day").value);
-			var julianDate = toJulianDate(year, month, day);
-			var firstDayOfYear = toJulianDate(year, 1, 1);
-			var difference = Math.abs(julianDate - firstDayOfYear+1);
-			document.getElementById("difference").innerHTML = difference;
+		button {
+			width: 80px;
+			height: 80px;
+			font-size: 40px;
+			margin: 5px;
 		}
-
-		function convertToJulianDate() {
-			var year = parseInt(document.getElementById("year").value);
-			var month = parseInt(document.getElementById("month").value);
-			var day = parseInt(document.getElementById("day").value);
-			var julianDate = toJulianDate(year, month, day);
-			document.getElementById("julianDate").innerHTML = julianDate;
+		.score {
+			margin-top: 20px;
 		}
-	</script>
+	</style>
 </head>
 <body>
-	<h1>Convertire in Giorni Giuliani</h1>
-	<p>Inserire una data:</p>
-	<form>
-		<input type="number" id="year" placeholder="Anno">
-		<input type="number" id="month" placeholder="Mese">
-		<input type="number" id="day" placeholder="Giorno">
-		<button type="button" onclick="convertToJulianDate()">Converti la data in Giorni Giuliani</button>
-		<p>Giorno Giuliano: <span id="julianDate"></span></p>
-		<button type="button" onclick="calculateDifference()">Calcola numero giorno</button>
-	</form>
-	<p>Giorno numero: <span id="difference"></span></p>
-	
-	<img src = "https://www.pngmart.com/files/4/Clown-PNG-Free-Download.png">
+	<div class="container">
+		<div>
+			<button id="0" onclick="play(this)">-</button>
+			<button id="1" onclick="play(this)">-</button>
+			<button id="2" onclick="play(this)">-</button>
+		</div>
+		<div>
+			<button id="3" onclick="play(this)">-</button>
+			<button id="4" onclick="play(this)">-</button>
+			<button id="5" onclick="play(this)">-</button>
+		</div>
+		<div>
+			<button id="6" onclick="play(this)">-</button>
+			<button id="7" onclick="play(this)">-</button>
+			<button id="8" onclick="play(this)">-</button>
+		</div>
+		<div class="score">
+			<p>Player 1 Score: <span id="player1Score">0</span></p>
+			<p>Player 2 Score: <span id="player2Score">0</span></p>
+		</div>
+	</div>
+	<script>
+		let currentPlayer = "X";
+		let player1Score = 0;
+		let player2Score = 0;
+		let gameOver = false;
+
+		function play(button) {
+			if (!gameOver && button.innerText == "-") {
+				button.innerText = currentPlayer;
+				if (checkWin()) {
+					if (currentPlayer == "X") {
+						player1Score++;
+						document.getElementById("player1Score").innerText = player1Score;
+						alert("Player 1 wins!");
+					} else {
+						player2Score++;
+						document.getElementById("player2Score").innerText = player2Score;
+						alert("Player 2 wins!");
+					}
+					gameOver = true;
+				} else if (checkTie()) {
+					alert("Tie game!");
+					gameOver = true;
+				} else {
+					currentPlayer = currentPlayer == "X" ? "O" : "X";
+					if (currentPlayer == "O") {
+						computerPlay();
+					}
+				}
+			}
+		}
+
+		function computerPlay() {
+			let cells = document.querySelectorAll("button");
+			let availableCells = [];
+			for (let cell of cells) {
+				if (cell.innerText == "-") {
+					availableCells.push(cell);
+				}
+			}
+			let chosenCell = availableCells[Math.floor(Math.random() * availableCells.length)];
+			chosenCell.innerText = "O";
+			if (checkWin()) {
+				player2Score++;
+				document.getElementById("player2Score").innerText = player2Score;
+				alert("Player 2 wins!");
+				gameOver = true;
+			} else if (checkTie()) {
+				alert("Tie game!");
+				gameOver = true;
+			} else {
+				currentPlayer = "X";
+			}
+		}
+
+		function checkWin() {
+			let cells = document.querySelectorAll("button");
+			let winConditions = [0, 1, 2],
+[3, 4, 5],
+[6, 7, 8],
+[0, 3, 6],
+[1, 4, 7],
+[2, 5, 8],
+[0, 4, 8],
+[2, 4, 6]
+];
+for (let condition of winConditions) {
+if (cells[condition[0]].innerText != "-" && cells[condition[0]].innerText == cells[condition[1]].innerText && cells[condition[1]].innerText == cells[condition[2]].innerText) {
+return true;
+}
+}
+return false;
+}
+		
+	function checkTie() {
+		let cells = document.querySelectorAll("button");
+		for (let cell of cells) {
+			if (cell.innerText == "-") {
+				return false;
+			}
+		}
+		return true;
+	}
+</script>
+
+		
 </body>
-</html>
+</html>		
